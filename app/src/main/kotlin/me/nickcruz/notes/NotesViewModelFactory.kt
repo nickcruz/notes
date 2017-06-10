@@ -20,7 +20,7 @@ class NotesViewModelFactory(val lifecycle: Lifecycle) : ViewModelProvider.Factor
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel?> create(modelClass: Class<T>?): T {
-        if (modelClass?.canonicalName == "NotesViewModel" && notesView != null) {
+        if (modelClass?.simpleName == "NotesViewModel" && notesView != null) {
             return NotesViewModel(lifecycle, notesView as NotesView) as T
         }
         throw RuntimeException("Unknown class: $modelClass")
