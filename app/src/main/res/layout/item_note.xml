@@ -6,11 +6,34 @@
     android:layout_margin="@dimen/space"
     android:layout_marginBottom="0dp">
 
-    <TextView
-        android:id="@+id/noteContentTextView"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="@dimen/space_x2"
-        tools:text="This is the content of the note."/>
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/noteTitleText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/space"
+            android:fontFamily="sans-serif"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:textSize="18sp"
+            android:textColor="@android:color/black"
+            tools:text="Note Title"/>
+
+        <TextView
+            android:id="@+id/noteContentText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:lineSpacingMultiplier="1.4"
+            android:textSize="14sp"
+            android:maxLines="3"
+            android:ellipsize="end"
+            tools:text="Vinyl selvage chillwave cred. Cornhole semiotics taxidermy, tumeric raw denim 3 wolf moon kitsch poutine slow-carb everyday carry vinyl blog glossier. Four loko roof party celiac flexitarian salvia."/>
+
+    </LinearLayout>
 
 </android.support.v7.widget.CardView>

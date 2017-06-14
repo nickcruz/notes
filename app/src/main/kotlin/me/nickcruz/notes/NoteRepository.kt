@@ -12,7 +12,9 @@ import android.arch.lifecycle.MutableLiveData
  */
 object NoteRepository {
 
-    val notes: List<Note> = listOf(Note("First Note"), Note("Second Note"))
+    val notes: List<Note> = listOf(
+            Note("First Note","This is the content of the first note."),
+            Note("Second Note", "This is the content of the second note."))
 
     fun getNotes(): LiveData<List<Note>> {
         val liveData = MutableLiveData<List<Note>>()
