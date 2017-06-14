@@ -1,4 +1,4 @@
-package me.nickcruz.notes
+package me.nickcruz.notes.view.notes
 
 import android.content.Context
 import android.support.v7.widget.RecyclerView
@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import butterknife.bindView
+import me.nickcruz.notes.R
+import me.nickcruz.notes.model.Note
 
 /**
  * Created by Nick Cruz on 6/10/17

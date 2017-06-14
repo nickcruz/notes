@@ -1,7 +1,8 @@
-package me.nickcruz.notes
+package me.nickcruz.notes.repository
 
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
+import me.nickcruz.notes.model.Note
 
 /**
  * Created by Nick Cruz on 6/10/17.

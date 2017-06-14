@@ -1,4 +1,4 @@
-package me.nickcruz.notes
+package me.nickcruz.notes.model
 
 /**
  * Created by Nick Cruz on 6/10/17
