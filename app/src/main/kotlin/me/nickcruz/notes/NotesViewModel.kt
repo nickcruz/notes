@@ -9,4 +9,9 @@ class NotesViewModel : ViewModel() {
 
     val notes: LiveData<List<Note>> = NoteRepository.getNotes()
 
+    fun subscribe(owner: NotesView) {
+        notes.observe(owner, Observer {
+            owner.showNotes(it ?: emptyList())
+        })
+    }
 }
