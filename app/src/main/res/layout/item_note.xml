@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/space"
+    android:layout_marginBottom="0dp">
 
     <TextView
         android:id="@+id/noteContentTextView"
@@ -12,10 +13,4 @@
         android:padding="@dimen/space_x2"
         tools:text="This is the content of the note."/>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginStart="@dimen/space_x2"
-        android:background="@color/grey_400"/>
-
-</LinearLayout>
+</android.support.v7.widget.CardView>

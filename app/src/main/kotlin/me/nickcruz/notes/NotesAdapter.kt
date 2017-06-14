@@ -24,7 +24,7 @@ class NotesAdapter(val context: Context) : RecyclerView.Adapter<NotesAdapter.Not
     }
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): NoteViewHolder {
-        return NoteViewHolder(LayoutInflater.from(context).inflate(R.layout.item_note, parent))
+        return NoteViewHolder(LayoutInflater.from(context).inflate(R.layout.item_note, parent, false))
     }
 
     override fun getItemCount(): Int = notes.size

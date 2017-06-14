@@ -1,6 +1,7 @@
 package me.nickcruz.notes
 
 import android.arch.lifecycle.LifecycleActivity
+import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.design.widget.Snackbar
@@ -8,9 +9,7 @@ import android.support.v7.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_notes.*
 import kotlinx.android.synthetic.main.content_notes.*
 
-class NotesActivity : LifecycleActivity(), NotesView {
-
-    lateinit var viewModel: NotesViewModel
+class NotesActivity : LifecycleActivity() {
 
     val notesAdapter = NotesAdapter(this)
 
@@ -28,12 +27,12 @@ class NotesActivity : LifecycleActivity(), NotesView {
         notesRecyclerView.layoutManager = LinearLayoutManager(this)
 
         // Initialize viewModel
-        viewModel = ViewModelProviders.of(this, NotesViewModelFactory(this.lifecycle).with(this))
-                .get(NotesViewModel::class.java)
+        val viewModel = ViewModelProviders.of(this).get(NotesViewModel::class.java)
+
+        subscribeUI(viewModel)
     }
 
-    override fun showNotes(notes: List<Note>) {
-        notesAdapter.setNotes(notes)
+    private fun subscribeUI(viewModel: NotesViewModel) {
+        viewModel.notes.observe(this, Observer { notesAdapter.setNotes(it ?: emptyList()) })
     }
-
 }
