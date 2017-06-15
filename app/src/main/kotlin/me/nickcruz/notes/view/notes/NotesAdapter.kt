@@ -19,6 +19,7 @@ class NotesAdapter(val context: Context) : RecyclerView.Adapter<NotesAdapter.Not
 
     fun setNotes(notes: List<Note>) {
         this.notes = notes
+        notifyDataSetChanged()
     }
 
     override fun onBindViewHolder(holder: NoteViewHolder?, position: Int) {

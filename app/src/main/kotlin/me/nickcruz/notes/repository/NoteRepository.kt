@@ -7,19 +7,30 @@ import me.nickcruz.notes.model.Note
 /**
  * Created by Nick Cruz on 6/10/17.
  *
- * Intermediary between ViewModel layer and Data Source layer.
- *
- * Retrieves models from Data Sources for ViewModels.
+ * Responsible for retrieving notes from remote or local data sources or storing/updating newly
+ * created Notes.
  */
 object NoteRepository {
 
-    val notes: List<Note> = listOf(
+    // TODO: Move this into a persistent DB.
+    private val notes: MutableList<Note> = mutableListOf(
             Note("First Note","This is the content of the first note."),
             Note("Second Note", "This is the content of the second note."))
 
-    fun getNotes(): LiveData<List<Note>> {
-        val liveData = MutableLiveData<List<Note>>()
-        liveData.value = notes
-        return liveData
+    private val notesLive: MutableLiveData<List<Note>> = MutableLiveData<List<Note>>()
+            .apply { value = notes }
+
+    /**
+     * Get the notes.
+     */
+    fun getNotes(): LiveData<List<Note>> = notesLive
+
+    /**
+     * Add a new note.
+     * @param note The newly created Note.
+     */
+    fun addNote(note: Note) {
+        notes.add(note)
+        notesLive.value = notes
     }
 }
