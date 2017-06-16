@@ -1,7 +1,8 @@
 package me.nickcruz.notes.repository
 
 import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.MutableLiveData
+import android.os.AsyncTask
+import me.nickcruz.notes.App
 import me.nickcruz.notes.model.Note
 
 /**
@@ -12,25 +13,30 @@ import me.nickcruz.notes.model.Note
  */
 object NoteRepository {
 
-    // TODO: Move this into a persistent DB.
-    private val notes: MutableList<Note> = mutableListOf(
-            Note("First Note","This is the content of the first note."),
-            Note("Second Note", "This is the content of the second note."))
-
-    private val notesLive: MutableLiveData<List<Note>> = MutableLiveData<List<Note>>()
-            .apply { value = notes }
-
     /**
      * Get the notes.
      */
-    fun getNotes(): LiveData<List<Note>> = notesLive
+    fun getNotes(): LiveData<List<Note>> = App.database.getNoteDao().getNotes()
 
     /**
      * Add a new note.
+     *
+     * TODO: Maybe don't use an AsyncTask.
+     *
      * @param note The newly created Note.
      */
-    fun addNote(note: Note) {
-        notes.add(note)
-        notesLive.value = notes
+    fun addNote(note: Note) = with (App.database) {
+        object : AsyncTask<Void, Void, Void>() {
+            override fun doInBackground(vararg p0: Void?): Void? {
+                beginTransaction()
+                try {
+                    getNoteDao().insert(note)
+                    setTransactionSuccessful()
+                } finally {
+                    endTransaction()
+                }
+                return null
+            }
+        }.execute()
     }
 }

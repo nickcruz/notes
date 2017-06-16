@@ -27,7 +27,7 @@ class NotesAdapter(val context: Context) : RecyclerView.Adapter<NotesAdapter.Not
             return
         }
 
-        val (title, content) = notes[position]
+        val (_, title, content) = notes[position]
         with (holder) {
             noteTitleText.text = title
             noteContentText.text = content
