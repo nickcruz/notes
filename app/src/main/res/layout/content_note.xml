@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     android:layout_width="match_parent"
-    tools:context=".view.add.AddNoteActivity">
+    tools:context=".view.note.NoteActivity">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"

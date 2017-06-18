@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/space"
-    android:layout_marginBottom="0dp">
+    android:layout_marginBottom="0dp"
+    android:foreground="?android:attr/selectableItemBackground">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -20,7 +21,7 @@
             android:fontFamily="sans-serif"
             android:maxLines="1"
             android:ellipsize="end"
-            android:textSize="18sp"
+            android:textSize="@dimen/header_text"
             android:textColor="@android:color/black"
             tools:text="Note Title"/>
 
@@ -29,7 +30,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:lineSpacingMultiplier="1.4"
-            android:textSize="14sp"
+            android:textSize="@dimen/body_text"
             android:maxLines="3"
             android:ellipsize="end"
             tools:text="Vinyl selvage chillwave cred. Cornhole semiotics taxidermy, tumeric raw denim 3 wolf moon kitsch poutine slow-carb everyday carry vinyl blog glossier. Four loko roof party celiac flexitarian salvia."/>

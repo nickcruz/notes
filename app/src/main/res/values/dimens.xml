@@ -1,5 +1,9 @@
 <resources>
     <dimen name="fab_margin">16dp</dimen>
+
+    <dimen name="header_text">18sp</dimen>
+    <dimen name="body_text">14sp</dimen>
+
     <dimen name="space">8dp</dimen>
     <dimen name="space_x2">16dp</dimen>
 </resources>

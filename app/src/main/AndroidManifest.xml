@@ -11,7 +11,7 @@
         </intent-filter>
     </activity>
     <activity
-        android:name=".view.add.AddNoteActivity"
-        android:label="@string/title_activity_add_note" />
+        android:name=".view.note.NoteActivity"
+        android:label="@string/title_activity_note" />
 </application>
 </manifest>

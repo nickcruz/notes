@@ -40,9 +40,10 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.android.support:design:26.0.0-beta2'
 
-    compile 'com.jakewharton:kotterknife:0.1.0-SNAPSHOT'
+    // Jake Wharton stuff lol
     compile "com.jakewharton:butterknife:8.6.0"
     kapt "com.jakewharton:butterknife-compiler:8.6.0"
+    compile 'com.jakewharton.rxbinding2:rxbinding-kotlin:2.0.0'
 
     // RxJava
     compile 'io.reactivex.rxjava2:rxjava:2.1.0'
@@ -62,7 +63,4 @@ dependencies {
 }
 repositories {
     mavenCentral()
-    maven {
-        url 'https://oss.sonatype.org/content/repositories/snapshots/'
-    }
 }

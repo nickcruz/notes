@@ -11,6 +11,4 @@ import me.nickcruz.notes.repository.NoteRepository
 class NotesViewModel : ViewModel() {
 
     val notes: Flowable<List<Note>> = NoteRepository.getNotes()
-
-    fun addNote(title: String, content: String) = NoteRepository.addNote(Note(title, content))
 }
