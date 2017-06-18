@@ -10,13 +10,14 @@ import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_notes.*
 import kotlinx.android.synthetic.main.content_notes.*
 import me.nickcruz.notes.R
-import me.nickcruz.notes.view.add.AddNoteActivity
+import me.nickcruz.notes.model.Note
+import me.nickcruz.notes.view.note.NoteActivity
 import me.nickcruz.notes.view.attachToLifecycle
 import me.nickcruz.notes.viewmodel.notes.NotesViewModel
 
-class NotesActivity : LifecycleActivity() {
+class NotesActivity : LifecycleActivity(), NotesAdapter.NotesAdapterListener {
 
-    val notesAdapter = NotesAdapter(this)
+    val notesAdapter = NotesAdapter(this, this)
 
     lateinit var notesViewModel: NotesViewModel
 
@@ -39,8 +40,12 @@ class NotesActivity : LifecycleActivity() {
                 .attachToLifecycle(this)
     }
 
+    override fun onNoteClicked(note: Note) {
+        startActivity(NoteActivity.getStartIntent(this, note))
+    }
+
     @OnClick(R.id.fab)
     internal fun fabClicked() {
-        startActivity(AddNoteActivity.getStartIntent(this))
+        startActivity(NoteActivity.getStartIntent(this))
     }
 }

@@ -6,14 +6,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import butterknife.bindView
+import kotlinx.android.synthetic.main.item_note.view.*
 import me.nickcruz.notes.R
 import me.nickcruz.notes.model.Note
 
 /**
  * Created by Nick Cruz on 6/10/17
  */
-class NotesAdapter(val context: Context) : RecyclerView.Adapter<NotesAdapter.NoteViewHolder>() {
+class NotesAdapter(private val context: Context,
+                   private var listener: NotesAdapterListener? = null)
+    : RecyclerView.Adapter<NotesAdapter.NoteViewHolder>() {
+
+    interface NotesAdapterListener {
+        fun onNoteClicked(note: Note)
+    }
 
     private var notes: List<Note> = emptyList()
 
@@ -22,26 +28,32 @@ class NotesAdapter(val context: Context) : RecyclerView.Adapter<NotesAdapter.Not
         notifyDataSetChanged()
     }
 
-    override fun onBindViewHolder(holder: NoteViewHolder?, position: Int) {
-        if (holder == null) {
-            return
+    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): NoteViewHolder {
+        val view = LayoutInflater.from(context).inflate(R.layout.item_note, parent, false)
+        val noteViewHolder = NoteViewHolder(view)
+        listener?.let { adapterListener ->
+            noteViewHolder.itemView.setOnClickListener {
+                adapterListener.onNoteClicked(noteViewHolder.note)
+            }
         }
-
-        val (_, title, content) = notes[position]
-        with (holder) {
-            noteTitleText.text = title
-            noteContentText.text = content
-        }
+        return noteViewHolder
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): NoteViewHolder {
-        return NoteViewHolder(LayoutInflater.from(context).inflate(R.layout.item_note, parent, false))
+    override fun onBindViewHolder(holder: NoteViewHolder?, position: Int) {
+        holder?.let {
+            with(notes[position]) {
+                it.note = this
+                it.titleText.text = title
+                it.contentText.text = content
+            }
+        }
     }
 
     override fun getItemCount(): Int = notes.size
 
-    class NoteViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val noteTitleText: TextView by bindView(R.id.noteTitleText)
-        val noteContentText: TextView by bindView(R.id.noteContentText)
+    class NoteViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        lateinit var note: Note
+        val titleText: TextView = itemView.noteTitleText
+        val contentText: TextView = itemView.noteContentText
     }
 }
