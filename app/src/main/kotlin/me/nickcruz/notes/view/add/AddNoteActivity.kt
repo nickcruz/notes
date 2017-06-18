@@ -6,6 +6,9 @@ import android.content.Context
 import android.content.Intent
 import butterknife.ButterKnife
 import butterknife.OnClick
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_notes.*
 import kotlinx.android.synthetic.main.content_add_note.*
 import me.nickcruz.notes.R
@@ -20,6 +23,8 @@ class AddNoteActivity : LifecycleActivity() {
         fun getStartIntent(context: Context): Intent = Intent(context, AddNoteActivity::class.java)
     }
 
+    val compositeDisposable = CompositeDisposable()
+
     lateinit var notesViewModel: NotesViewModel
 
     override fun onCreate(savedInstanceState: android.os.Bundle?) {
@@ -32,9 +37,17 @@ class AddNoteActivity : LifecycleActivity() {
                 .get(NotesViewModel::class.java)
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        compositeDisposable.clear()
+    }
+
     @OnClick(R.id.fab)
     internal fun addNoteClicked() {
-        notesViewModel.addNote(titleEditText.text.toString(), contentEditText.text.toString())
-        finish()
+        compositeDisposable.add(notesViewModel
+                .addNote(titleEditText.text.toString(), contentEditText.text.toString())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe({ finish() }))
     }
 }

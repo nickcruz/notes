@@ -1,11 +1,13 @@
 package me.nickcruz.notes.view.notes
 
 import android.arch.lifecycle.LifecycleActivity
-import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.support.v7.widget.LinearLayoutManager
 import butterknife.ButterKnife
 import butterknife.OnClick
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_notes.*
 import kotlinx.android.synthetic.main.content_notes.*
 import me.nickcruz.notes.R
@@ -15,6 +17,7 @@ import me.nickcruz.notes.viewmodel.notes.NotesViewModel
 class NotesActivity : LifecycleActivity() {
 
     val notesAdapter = NotesAdapter(this)
+    val compositeDisposable = CompositeDisposable()
 
     lateinit var notesViewModel: NotesViewModel
 
@@ -30,9 +33,15 @@ class NotesActivity : LifecycleActivity() {
         notesViewModel = ViewModelProviders.of(this)
                 .get(NotesViewModel::class.java)
 
-        notesViewModel.notes.observe(this, Observer {
-            notesAdapter.setNotes(it ?: emptyList())
-        })
+        compositeDisposable.add(notesViewModel.notes
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe({ notesAdapter.setNotes(it) }))
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        compositeDisposable.clear()
     }
 
     @OnClick(R.id.fab)
