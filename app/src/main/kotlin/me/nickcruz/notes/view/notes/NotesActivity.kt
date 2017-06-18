@@ -1,15 +1,17 @@
 package me.nickcruz.notes.view.notes
 
 import android.arch.lifecycle.LifecycleActivity
-import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.support.v7.widget.LinearLayoutManager
 import butterknife.ButterKnife
 import butterknife.OnClick
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_notes.*
 import kotlinx.android.synthetic.main.content_notes.*
 import me.nickcruz.notes.R
 import me.nickcruz.notes.view.add.AddNoteActivity
+import me.nickcruz.notes.view.attachToLifecycle
 import me.nickcruz.notes.viewmodel.notes.NotesViewModel
 
 class NotesActivity : LifecycleActivity() {
@@ -30,9 +32,11 @@ class NotesActivity : LifecycleActivity() {
         notesViewModel = ViewModelProviders.of(this)
                 .get(NotesViewModel::class.java)
 
-        notesViewModel.notes.observe(this, Observer {
-            notesAdapter.setNotes(it ?: emptyList())
-        })
+        notesViewModel.notes
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe({ notesAdapter.setNotes(it) })
+                .attachToLifecycle(this)
     }
 
     @OnClick(R.id.fab)
