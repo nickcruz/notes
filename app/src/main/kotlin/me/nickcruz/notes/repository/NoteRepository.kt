@@ -1,10 +1,7 @@
 package me.nickcruz.notes.repository
 
-import android.os.AsyncTask
 import io.reactivex.Completable
 import io.reactivex.Flowable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import me.nickcruz.notes.App
 import me.nickcruz.notes.model.Note
 
