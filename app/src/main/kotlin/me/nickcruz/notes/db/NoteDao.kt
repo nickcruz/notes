@@ -1,9 +1,9 @@
 package me.nickcruz.notes.db
 
-import android.arch.lifecycle.LiveData
 import android.arch.persistence.room.Dao
 import android.arch.persistence.room.Insert
 import android.arch.persistence.room.Query
+import io.reactivex.Flowable
 import me.nickcruz.notes.model.Note
 
 /**
@@ -12,7 +12,7 @@ import me.nickcruz.notes.model.Note
 @Dao
 interface NoteDao {
     @Query("SELECT * FROM note")
-    fun getNotes(): LiveData<List<Note>>
+    fun getNotes(): Flowable<List<Note>>
 
     @Insert
     fun insert(note: Note)

@@ -6,9 +6,12 @@ import android.content.Context
 import android.content.Intent
 import butterknife.ButterKnife
 import butterknife.OnClick
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_notes.*
 import kotlinx.android.synthetic.main.content_add_note.*
 import me.nickcruz.notes.R
+import me.nickcruz.notes.view.attachToLifecycle
 import me.nickcruz.notes.viewmodel.notes.NotesViewModel
 
 /**
@@ -34,7 +37,11 @@ class AddNoteActivity : LifecycleActivity() {
 
     @OnClick(R.id.fab)
     internal fun addNoteClicked() {
-        notesViewModel.addNote(titleEditText.text.toString(), contentEditText.text.toString())
-        finish()
+        notesViewModel
+                .addNote(titleEditText.text.toString(), contentEditText.text.toString())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe({ finish() })
+                .attachToLifecycle(this)
     }
 }

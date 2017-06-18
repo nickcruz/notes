@@ -1,7 +1,7 @@
 package me.nickcruz.notes.repository
 
-import android.arch.lifecycle.LiveData
-import android.os.AsyncTask
+import io.reactivex.Completable
+import io.reactivex.Flowable
 import me.nickcruz.notes.App
 import me.nickcruz.notes.model.Note
 
@@ -16,27 +16,13 @@ object NoteRepository {
     /**
      * Get the notes.
      */
-    fun getNotes(): LiveData<List<Note>> = App.database.getNoteDao().getNotes()
+    fun getNotes(): Flowable<List<Note>> = App.database.getNoteDao().getNotes()
 
     /**
      * Add a new note.
      *
-     * TODO: Maybe don't use an AsyncTask.
-     *
      * @param note The newly created Note.
      */
-    fun addNote(note: Note) = with (App.database) {
-        object : AsyncTask<Void, Void, Void>() {
-            override fun doInBackground(vararg p0: Void?): Void? {
-                beginTransaction()
-                try {
-                    getNoteDao().insert(note)
-                    setTransactionSuccessful()
-                } finally {
-                    endTransaction()
-                }
-                return null
-            }
-        }.execute()
-    }
+    fun addNote(note: Note): Completable = Completable
+            .fromAction { App.database.getNoteDao().insert(note) }
 }

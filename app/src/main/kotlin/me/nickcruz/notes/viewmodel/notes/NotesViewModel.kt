@@ -1,7 +1,7 @@
 package me.nickcruz.notes.viewmodel.notes
 
-import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.ViewModel
+import io.reactivex.Flowable
 import me.nickcruz.notes.model.Note
 import me.nickcruz.notes.repository.NoteRepository
 
@@ -10,9 +10,7 @@ import me.nickcruz.notes.repository.NoteRepository
  */
 class NotesViewModel : ViewModel() {
 
-    val notes: LiveData<List<Note>> = NoteRepository.getNotes()
+    val notes: Flowable<List<Note>> = NoteRepository.getNotes()
 
-    fun addNote(title: String, content: String) {
-        NoteRepository.addNote(Note(title, content))
-    }
+    fun addNote(title: String, content: String) = NoteRepository.addNote(Note(title, content))
 }
