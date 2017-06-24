@@ -1,7 +1,16 @@
 <resources>
+
+    <!-- Notes -->
     <string name="app_name">Notes</string>
     <string name="action_settings">Settings</string>
+
+    <!-- Note -->
     <string name="title_activity_note">Note</string>
     <string name="content">Content</string>
     <string name="title">Title</string>
+
+    <!-- Camera -->
+    <string name="action_camera">Take a Photo</string>
+    <string name="title_activity_camera">Take a Picture</string>
+
 </resources>

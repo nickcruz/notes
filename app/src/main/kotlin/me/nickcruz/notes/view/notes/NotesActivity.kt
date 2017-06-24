@@ -2,6 +2,7 @@ package me.nickcruz.notes.view.notes
 
 import android.arch.lifecycle.LifecycleActivity
 import android.arch.lifecycle.ViewModelProviders
+import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import butterknife.ButterKnife
 import butterknife.OnClick
@@ -21,7 +22,7 @@ class NotesActivity : LifecycleActivity(), NotesAdapter.NotesAdapterListener {
 
     lateinit var notesViewModel: NotesViewModel
 
-    override fun onCreate(savedInstanceState: android.os.Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_notes)
         setActionBar(toolbar)

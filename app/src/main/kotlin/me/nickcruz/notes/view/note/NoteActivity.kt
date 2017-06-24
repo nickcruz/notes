@@ -4,6 +4,10 @@ import android.arch.lifecycle.LifecycleActivity
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
+import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import butterknife.ButterKnife
 import butterknife.OnClick
 import com.jakewharton.rxbinding2.widget.textChanges
@@ -14,6 +18,7 @@ import kotlinx.android.synthetic.main.content_note.*
 import me.nickcruz.notes.R
 import me.nickcruz.notes.model.Note
 import me.nickcruz.notes.view.attachToLifecycle
+import me.nickcruz.notes.view.camera.CameraActivity
 import me.nickcruz.notes.viewmodel.note.NoteViewModel
 
 /**
@@ -30,7 +35,7 @@ class NoteActivity : LifecycleActivity() {
 
     lateinit var noteViewModel: NoteViewModel
 
-    override fun onCreate(savedInstanceState: android.os.Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_note)
         setActionBar(toolbar)
@@ -51,13 +56,31 @@ class NoteActivity : LifecycleActivity() {
                 .attachToLifecycle(this)
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_note, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.action_camera -> {
+                goToCamera()
+                return true
+            }
+            else -> return super.onOptionsItemSelected(item)
+        }
+    }
+
     @OnClick(R.id.fab)
     internal fun submitClicked() {
         noteViewModel
                 .submitNote()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribe({ finish() })
+                .subscribe { finish() }
                 .attachToLifecycle(this)
     }
+
+    private fun goToCamera() =
+            startActivity(CameraActivity.getStartIntent(this, noteViewModel.note))
 }
