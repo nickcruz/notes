@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" package="me.nickcruz.notes">
 
 <application android:theme="@style/AppTheme.NoActionBar" android:name=".App">
+
+    <uses-permission android:name="CAMERA" android:maxSdkVersion="25" />
+
     <activity
         android:name=".view.notes.NotesActivity"
         android:label="@string/app_name">

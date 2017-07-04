@@ -12,5 +12,6 @@
     <!-- Camera -->
     <string name="action_camera">Take a Photo</string>
     <string name="title_activity_camera">Take a Picture</string>
+    <string name="request_permission">Notes needs permission to use your camera.</string>
 
 </resources>
