@@ -6,7 +6,6 @@ import android.content.Intent
 import android.graphics.SurfaceTexture
 import android.os.Bundle
 import android.util.Log
-import android.util.Size
 import android.view.TextureView
 import kotlinx.android.synthetic.main.activity_camera.*
 import kotlinx.android.synthetic.main.content_camera.*
@@ -14,8 +13,6 @@ import me.nickcruz.notes.R
 import me.nickcruz.notes.model.Note
 import me.nickcruz.notes.view.attachToLifecycle
 import me.nickcruz.notes.view.camera.permission.CameraPermissionChecker
-import java.lang.Long.signum
-import java.util.*
 
 
 /**
