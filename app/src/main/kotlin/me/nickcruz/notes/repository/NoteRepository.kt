@@ -1,5 +1,6 @@
 package me.nickcruz.notes.repository
 
+import com.google.firebase.firestore.FirebaseFirestore
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import me.nickcruz.notes.App
@@ -25,5 +26,11 @@ object NoteRepository {
      *
      * @param note The newly created Note.
      */
-    fun replaceNote(note: Note): Completable = Completable.fromAction { noteDao.replace(note) }
+    fun replaceNote(note: Note): Completable = Completable.fromAction {
+        FirebaseFirestore.getInstance()
+                .collection("notes")
+                .document("${note.id}")
+                .set(note)
+        noteDao.replace(note)
+    }
 }
