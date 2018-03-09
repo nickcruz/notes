@@ -12,13 +12,14 @@ import me.nickcruz.notes.repository.NoteRepository
 class NoteViewModel : ViewModel() {
     var note = Note()
 
-    fun subscribeToChanges(titleChanges: Observable<CharSequence>,
-                           contentChanges: Observable<CharSequence>): Completable =
-            Observable.mergeArray(
-                    titleChanges.doOnNext { note.title = it.toString() },
-                    contentChanges.doOnNext { note.content = it.toString() }
-            ).ignoreElements()
+    fun subscribeToTitleChanges(titleChanges: Observable<CharSequence>): Completable = titleChanges
+            .doOnNext { note.title = it.toString() }
+            .ignoreElements()
 
-    fun submitNote(): Completable = NoteRepository.insertNote(note)
+    fun subscribeToContentChanges(contentChanges: Observable<CharSequence>): Completable = contentChanges
+            .doOnNext { note.title = it.toString() }
+            .ignoreElements()
+
+    fun submitNote() = NoteRepository.insertNote(note)
 
 }

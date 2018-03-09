@@ -4,9 +4,9 @@ import android.arch.persistence.room.Dao
 import android.arch.persistence.room.Delete
 import android.arch.persistence.room.Insert
 import android.arch.persistence.room.Query
+import android.arch.persistence.room.Update
 import io.reactivex.Flowable
 import me.nickcruz.notes.model.Note
-import me.nickcruz.notes.model.Note.Companion.ID
 import me.nickcruz.notes.model.Note.Companion.TABLE
 
 /**
@@ -22,4 +22,7 @@ interface NoteDao {
 
     @Delete
     fun delete(note: Note)
+
+    @Update
+    fun update(note: Note)
 }

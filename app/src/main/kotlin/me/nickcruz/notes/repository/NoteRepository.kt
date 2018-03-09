@@ -13,19 +13,24 @@ import me.nickcruz.notes.model.Note
  */
 object NoteRepository {
 
-    private fun getNoteDao() = App.database.noteDao
+    private val noteDao = App.database.noteDao
 
     /**
      * Get the notes.
      */
-    fun getNotes(): Flowable<List<Note>> = getNoteDao().getNotes()
+    fun getNotes(): Flowable<List<Note>> = noteDao.getNotes()
 
     /**
-     * Add a new note. If this note already exists, replaces the note.
+     * Add a new note.
      *
      * @param note The newly created Note.
      */
-    fun insertNote(note: Note): Completable = Completable
-            .fromAction { getNoteDao().delete(note) }
-            .andThen(Completable.fromAction { getNoteDao().insert(note) })
+    fun insertNote(note: Note): Completable = Completable.fromAction { noteDao.insert(note) }
+
+    /**
+     * Update a note.
+     *
+     * @param note The note to update.
+     */
+    fun updateNote(note: Note): Completable = Completable.fromAction { noteDao.update(note) }
 }
