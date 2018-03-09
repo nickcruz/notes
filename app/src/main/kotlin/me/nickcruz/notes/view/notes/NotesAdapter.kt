@@ -13,34 +13,30 @@ import me.nickcruz.notes.model.Note
 /**
  * Created by Nick Cruz on 6/10/17
  */
-class NotesAdapter(private val context: Context,
-                   private var listener: NotesAdapterListener? = null)
+class NotesAdapter(private val context: Context)
     : RecyclerView.Adapter<NotesAdapter.NoteViewHolder>() {
 
-    interface NotesAdapterListener {
-        fun onNoteClicked(note: Note)
-    }
+    var listener: (Note) -> Unit = { }
 
-    private var notes: List<Note> = emptyList()
+    private val notes: MutableList<Note> = mutableListOf()
 
     fun setNotes(notes: List<Note>) {
-        this.notes = notes
+        this.notes.clear()
+        this.notes.addAll(notes)
         notifyDataSetChanged()
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): NoteViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.item_note, parent, false)
         val noteViewHolder = NoteViewHolder(view)
-        listener?.let { adapterListener ->
-            noteViewHolder.itemView.setOnClickListener {
-                adapterListener.onNoteClicked(noteViewHolder.note)
-            }
+        noteViewHolder.itemView.setOnClickListener {
+            listener.invoke(noteViewHolder.note)
         }
         return noteViewHolder
     }
 
-    override fun onBindViewHolder(holder: NoteViewHolder?, position: Int) {
-        holder?.let {
+    override fun onBindViewHolder(holder: NoteViewHolder, position: Int) {
+        holder.let {
             with(notes[position]) {
                 it.note = this
                 it.titleText.text = title
@@ -49,7 +45,7 @@ class NotesAdapter(private val context: Context,
         }
     }
 
-    override fun getItemCount(): Int = notes.size
+    override fun getItemCount() = notes.size
 
     class NoteViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         lateinit var note: Note
