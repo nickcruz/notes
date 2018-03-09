@@ -17,9 +17,9 @@ class NoteViewModel : ViewModel() {
             .ignoreElements()
 
     fun subscribeToContentChanges(contentChanges: Observable<CharSequence>): Completable = contentChanges
-            .doOnNext { note.title = it.toString() }
+            .doOnNext { note.content = it.toString() }
             .ignoreElements()
 
-    fun submitNote() = NoteRepository.insertNote(note)
+    fun submitNote() = NoteRepository.replaceNote(note)
 
 }

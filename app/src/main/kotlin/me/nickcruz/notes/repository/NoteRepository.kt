@@ -21,16 +21,9 @@ object NoteRepository {
     fun getNotes(): Flowable<List<Note>> = noteDao.getNotes()
 
     /**
-     * Add a new note.
+     * Replaces a note. If the note does not exist, inserts the note.
      *
      * @param note The newly created Note.
      */
-    fun insertNote(note: Note): Completable = Completable.fromAction { noteDao.insert(note) }
-
-    /**
-     * Update a note.
-     *
-     * @param note The note to update.
-     */
-    fun updateNote(note: Note): Completable = Completable.fromAction { noteDao.update(note) }
+    fun replaceNote(note: Note): Completable = Completable.fromAction { noteDao.replace(note) }
 }

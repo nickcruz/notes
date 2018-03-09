@@ -3,8 +3,8 @@ package me.nickcruz.notes.db
 import android.arch.persistence.room.Dao
 import android.arch.persistence.room.Delete
 import android.arch.persistence.room.Insert
+import android.arch.persistence.room.OnConflictStrategy
 import android.arch.persistence.room.Query
-import android.arch.persistence.room.Update
 import io.reactivex.Flowable
 import me.nickcruz.notes.model.Note
 import me.nickcruz.notes.model.Note.Companion.TABLE
@@ -17,12 +17,9 @@ interface NoteDao {
     @Query("SELECT * FROM $TABLE")
     fun getNotes(): Flowable<List<Note>>
 
-    @Insert
-    fun insert(note: Note)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun replace(note: Note)
 
     @Delete
     fun delete(note: Note)
-
-    @Update
-    fun update(note: Note)
 }
