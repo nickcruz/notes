@@ -2,6 +2,7 @@ package me.nickcruz.notes
 
 import android.app.Application
 import android.arch.persistence.room.Room
+import com.google.firebase.FirebaseApp
 import me.nickcruz.notes.db.AppDatabase
 
 /**
@@ -15,5 +16,7 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
         database = Room.databaseBuilder(this, AppDatabase::class.java, "notes-db").build()
+
+        FirebaseApp.initializeApp(this)
     }
 }
