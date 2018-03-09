@@ -48,7 +48,14 @@ class NoteActivity : AppCompatActivity() {
         }
 
         noteViewModel
-                .subscribeToChanges(titleEditText.textChanges(), contentEditText.textChanges())
+                .subscribeToTitleChanges(titleEditText.textChanges())
+                .subscribeOn(Schedulers.io())
+                .subscribe()
+                .attachToLifecycle(this)
+
+        noteViewModel
+                .subscribeToContentChanges(contentEditText.textChanges())
+                .subscribeOn(Schedulers.io())
                 .subscribe()
                 .attachToLifecycle(this)
     }
