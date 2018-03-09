@@ -7,7 +7,7 @@ import me.nickcruz.notes.model.Note
 /**
  * Created by Nick Cruz on 6/15/17
  */
-@Database(entities = arrayOf(Note::class), version = 1)
+@Database(entities = arrayOf(Note::class), version = 1, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
-    abstract fun getNoteDao(): NoteDao
+    abstract val noteDao: NoteDao
 }

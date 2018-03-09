@@ -1,6 +1,5 @@
 package me.nickcruz.notes.repository
 
-import android.util.Log
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import me.nickcruz.notes.App
@@ -14,7 +13,7 @@ import me.nickcruz.notes.model.Note
  */
 object NoteRepository {
 
-    private fun getNoteDao() = App.database.getNoteDao()
+    private fun getNoteDao() = App.database.noteDao
 
     /**
      * Get the notes.
@@ -27,6 +26,6 @@ object NoteRepository {
      * @param note The newly created Note.
      */
     fun insertNote(note: Note): Completable = Completable
-            .fromAction({ getNoteDao().delete(note) })
+            .fromAction { getNoteDao().delete(note) }
             .andThen(Completable.fromAction { getNoteDao().insert(note) })
 }
