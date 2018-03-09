@@ -40,6 +40,9 @@ dependencies {
     compile 'com.android.support:design:27.1.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
 
+    compile 'com.google.firebase:firebase-core:11.8.0'
+    compile 'com.google.firebase:firebase-firestore:11.8.0'
+
     // Jake Wharton stuff lol
     compile 'com.jakewharton.rxbinding2:rxbinding-kotlin:2.0.0'
 
@@ -61,3 +64,5 @@ dependencies {
 repositories {
     mavenCentral()
 }
+
+apply plugin: 'com.google.gms.google-services'
