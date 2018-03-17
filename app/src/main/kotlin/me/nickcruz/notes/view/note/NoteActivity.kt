@@ -6,7 +6,6 @@ import com.jakewharton.rxbinding2.widget.textChanges
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_note.*
-import kotlinx.android.synthetic.main.content_note.*
 import me.nickcruz.notes.R
 import me.nickcruz.notes.base.BaseActivity
 import me.nickcruz.notes.model.Note
@@ -30,7 +29,6 @@ class NoteActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: android.os.Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_note)
-        setActionBar(toolbar)
 
         intent.getParcelableExtra<Note>(EXTRA_NOTE)?.let {
             noteViewModel.note = it
@@ -46,6 +44,8 @@ class NoteActivity : BaseActivity() {
                     .subscribe(this::finish)
                     .addToDisposer()
         }
+
+        contentInputLayout.setOnClickListener { contentEditText.performClick() }
 
         noteViewModel
                 .subscribeToTitleChanges(titleEditText.textChanges())
