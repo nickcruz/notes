@@ -1,18 +1,17 @@
 package me.nickcruz.notes.view.notes
 
-import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_notes.*
 import kotlinx.android.synthetic.main.content_notes.*
 import me.nickcruz.notes.R
-import me.nickcruz.notes.view.attachToLifecycle
+import me.nickcruz.notes.base.BaseActivity
 import me.nickcruz.notes.view.note.NoteActivity
 import me.nickcruz.notes.viewmodel.lazyViewModel
 import me.nickcruz.notes.viewmodel.notes.NotesViewModel
 
-class NotesActivity : AppCompatActivity() {
+class NotesActivity : BaseActivity() {
 
     private val notesViewModel by lazyViewModel(NotesViewModel::class)
 
@@ -28,10 +27,10 @@ class NotesActivity : AppCompatActivity() {
         notesRecyclerView.layoutManager = LinearLayoutManager(this)
 
         notesViewModel.notes
-                .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe { notesAdapter.setNotes(it) }
-                .attachToLifecycle(this)
+                .addToDisposer()
 
         fab.setOnClickListener { startActivity(NoteActivity.getStartIntent(this)) }
     }
