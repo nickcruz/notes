@@ -2,25 +2,24 @@ package me.nickcruz.notes.view.note
 
 import android.content.Context
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
 import com.jakewharton.rxbinding2.widget.textChanges
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_note.*
 import kotlinx.android.synthetic.main.content_note.*
 import me.nickcruz.notes.R
+import me.nickcruz.notes.base.BaseActivity
 import me.nickcruz.notes.model.Note
-import me.nickcruz.notes.view.attachToLifecycle
 import me.nickcruz.notes.viewmodel.lazyViewModel
 import me.nickcruz.notes.viewmodel.note.NoteViewModel
 
 /**
  * Created by Nick Cruz on 6/13/17
  */
-class NoteActivity : AppCompatActivity() {
+class NoteActivity : BaseActivity() {
 
     companion object {
-        val EXTRA_NOTE = "note"
+        const val EXTRA_NOTE = "note"
 
         fun getStartIntent(context: Context, note: Note? = null) =
                 Intent(context, NoteActivity::class.java).apply { putExtra(EXTRA_NOTE, note) }
@@ -39,24 +38,25 @@ class NoteActivity : AppCompatActivity() {
             contentEditText.setText(it.content)
         }
 
-        fab.setOnClickListener { noteViewModel
-                .submitNote()
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe(this::finish)
-                .attachToLifecycle(this)
+        fab.setOnClickListener {
+            noteViewModel
+                    .submitNote()
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(this::finish)
+                    .addToDisposer()
         }
 
         noteViewModel
                 .subscribeToTitleChanges(titleEditText.textChanges())
                 .subscribeOn(Schedulers.io())
                 .subscribe()
-                .attachToLifecycle(this)
+                .addToDisposer()
 
         noteViewModel
                 .subscribeToContentChanges(contentEditText.textChanges())
                 .subscribeOn(Schedulers.io())
                 .subscribe()
-                .attachToLifecycle(this)
+                .addToDisposer()
     }
 }

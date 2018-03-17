@@ -8,28 +8,22 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 
 /**
- * Created by Nick Cruz on 6/18/17
- *
- * Disposes of any Disposables left behind from any Rx streams.
- *
- * To ensure an Rx stream is not leaked, call Disposable.attachToLifecycle on it.
+ * Created by nick.cruz on 3/9/18
  */
-object Disposer : LifecycleObserver {
+class Disposer(lifecycleOwner: LifecycleOwner) : LifecycleObserver {
 
-    val compositeDisposable = CompositeDisposable()
-
-    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-    fun cleanUp() {
-        compositeDisposable.clear()
+    init {
+        lifecycleOwner.lifecycle.addObserver(this)
     }
 
-}
+    private val compositeDisposable = CompositeDisposable()
 
-/**
- * Attaches a Disposable to a LifeCycleOwner. This attaches the Disposable to a lifecycle-aware
- * CompositeDisposable.
- */
-fun Disposable.attachToLifecycle(lifecycleOwner: LifecycleOwner) {
-    lifecycleOwner.lifecycle.addObserver(Disposer)
-    Disposer.compositeDisposable.add(this)
+    fun dispose(disposable: Disposable) {
+        compositeDisposable.add(disposable)
+    }
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
+    fun clear() {
+        compositeDisposable.clear()
+    }
 }
